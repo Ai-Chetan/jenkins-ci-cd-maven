@@ -1,0 +1,8 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+.dist
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
