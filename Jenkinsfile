@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  tools { maven 'Maven' }  // Jenkins > Global Tool Configuration name
+  tools { maven 'Maven' }
 
   stages {
     stage('Checkout') {
@@ -18,9 +18,13 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        // Example: copy artifact to a deployment folder inside the agent
         sh 'mkdir -p /opt/deployments && cp target/*.jar /opt/deployments/'
       }
+    }
+    stage('Run Deployed App') {
+        steps {
+            sh 'java -jar target/my-java-app-1.0-SNAPSHOT.jar'
+        }
     }
   }
   post {
