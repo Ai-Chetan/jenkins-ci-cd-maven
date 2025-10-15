@@ -16,17 +16,24 @@ pipeline {
     stage('Package') {
       steps { sh 'mvn -q package' }
     }
+
+    // ✅ UPDATED Deploy Stage
     stage('Deploy') {
       steps {
-        sh 'mkdir -p /opt/deployments && cp target/*.jar /opt/deployments/'
+        sh '''
+          mkdir -p $WORKSPACE/deployments
+          cp target/*.jar $WORKSPACE/deployments/
+        '''
       }
     }
+
     stage('Run Deployed App') {
-        steps {
-            sh 'java -jar target/my-java-app-1.0-SNAPSHOT.jar'
-        }
+      steps {
+        sh 'java -jar $WORKSPACE/deployments/my-java-app-1.0-SNAPSHOT.jar'
+      }
     }
   }
+
   post {
     success { echo '✅ Build, Test, Deploy done.' }
     failure { echo '❌ Pipeline failed.' }
